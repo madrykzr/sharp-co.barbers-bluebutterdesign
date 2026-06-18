@@ -1,0 +1,6 @@
+{
+  "name": "Sharp & Co. Barbers",
+  "description": "Retro-Americana barbershop meets modern dark-mode neon. Where the cut still matters.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
