@@ -63,61 +63,69 @@ export default function App() {
   };
 
   const menuItems = [
-    { id: 'home', label: 'HOME' },
-    { id: 'cuts', label: 'SERVICES' },
-    { id: 'book', label: 'BOOK CHAIR' },
-    { id: 'shop', label: 'APOTHECARY' },
-    { id: 'about', label: 'OUR STORY' },
-    { id: 'visit', label: 'VISIT' }
+    { id: 'home', label: 'Home' },
+    { id: 'services', label: 'Services' },
+    { id: 'about', label: 'About' },
+    { id: 'news', label: 'News' },
+    { id: 'shop', label: 'Shop' }
   ];
 
+  const handleNavClick = (id: string) => {
+    playDullClick();
+    if (id === 'home') {
+      handleNavigate('home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      handleNavigate('home');
+      // short delay to let home active view mount in case we were in book mode
+      setTimeout(() => {
+        const section = document.getElementById(id);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 80);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-charcoal text-cream font-sans flex flex-col justify-between selection:bg-electric-red selection:text-cream">
+    <div className="min-h-screen bg-[#1C1A18] text-[#F2EDE4] font-sans flex flex-col justify-between selection:bg-[#E8762C] selection:text-[#F2EDE4]">
       
       {/* 1. NAVIGATION BAR DESKTOP / MOBILE */}
-      <header className="sticky top-0 z-40 bg-charcoal/95 backdrop-blur-md border-b border-bronze/15 py-3 px-4 md:px-8 shadow-md">
+      <header className="sticky top-0 z-40 bg-[#1C1A18]/95 backdrop-blur-md border-b border-[#F2EDE4]/10 py-4 px-4 md:px-8 shadow-lg">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           
-          {/* Logo Glitch on Hover */}
-          <div onClick={() => handleNavigate('home')} className="z-50">
-            <LogoGlitch />
+          {/* Logo "SHARP & CO." */}
+          <div onClick={() => handleNavClick('home')} className="z-50 cursor-pointer group">
+            <span className="font-anton text-2xl tracking-[0.1em] text-[#F2EDE4] group-hover:text-[#E8762C] transition-colors duration-300">
+              SHARP & CO.
+            </span>
           </div>
 
-          {/* Desktop Links */}
-          <nav className="hidden lg:flex items-center gap-7">
+          {/* Desktop Links (Pill-style nav links center) */}
+          <nav className="hidden lg:flex items-center gap-1.5 bg-[#3A332C]/30 border border-[#F2EDE4]/10 px-2 py-1.5 rounded-full">
             {menuItems.map(item => {
-              const isActive = activeView === item.id;
               return (
                 <button
                   key={item.id}
-                  onClick={() => { playDullClick(); handleNavigate(item.id as ActiveView); }}
-                  className={`font-anton text-[11px] tracking-[0.25em] uppercase transition-all duration-300 relative py-1 cursor-pointer hover:text-electric-red ${
-                    isActive ? "text-electric-red filter drop-shadow-[0_0_8px_rgba(230,57,70,0.5)] font-bold" : "text-cream/70"
-                  }`}
+                  onClick={() => handleNavClick(item.id)}
+                  className="font-mono text-xs tracking-wider uppercase px-4 py-1.5 rounded-full transition-all duration-300 cursor-pointer text-[#F2EDE4]/80 hover:text-[#E8762C] hover:bg-[#3A332C]/50"
                 >
                   {item.label}
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeNavIndicator"
-                      className="absolute bottom-[-13px] left-0 right-0 h-[2px] bg-electric-red shadow-[0_0_8px_#E63946]"
-                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                    />
-                  )}
                 </button>
               );
             })}
           </nav>
 
-          {/* Controls Right Column (Sound Toggle + Mobile Burger) */}
+          {/* Controls Right Column (Contact Us button) */}
           <div className="flex items-center gap-4">
             
             {/* Audio scissor click toggle indicator */}
             <button
               onClick={handleSoundToggle}
-              className={`p-2 rounded bg-neutral-900 border transition-all duration-300 cursor-pointer ${
+              className={`p-2 rounded bg-[#3A332C]/20 border transition-all duration-300 cursor-pointer ${
                 soundEnabled 
-                  ? "border-electric-red text-electric-red shadow-[0_0_5px_rgba(230,57,75,0.4)]" 
-                  : "border-bronze/20 text-cream/35 hover:border-bronze/45 hover:text-cream"
+                  ? "border-[#E8762C] text-[#E8762C] shadow-[0_0_8px_rgba(232,118,44,0.3)]" 
+                  : "border-[#F2EDE4]/10 text-[#F2EDE4]/40 hover:border-[#F2EDE4]/30 hover:text-[#F2EDE4]"
               }`}
               title={soundEnabled ? "Disable Scissor Sounds" : "Enable Scissor Clicking Sounds"}
             >
@@ -127,15 +135,15 @@ export default function App() {
             {/* Quick action button desktop */}
             <button
               onClick={() => { playRetroScissorsClick(); handleNavigate('book'); }}
-              className="hidden sm:flex px-4 py-2 bg-electric-red text-cream font-anton text-xs tracking-wider uppercase rounded-sm border border-electric-red shadow-[0_0_8px_rgba(230,57,70,0.35)] hover:bg-cream hover:text-charcoal hover:border-cream transition duration-300 cursor-pointer"
+              className="hidden sm:flex px-5 py-2.5 bg-[#E8762C] text-[#F2EDE4] font-anton text-xs tracking-wider uppercase border border-[#E8762C] shadow-[0_0_12px_rgba(232,118,44,0.3)] hover:bg-[#F2EDE4] hover:text-[#1C1A18] hover:border-[#F2EDE4] transition duration-300 cursor-pointer"
             >
-              Book Cut
+              Contact Us
             </button>
 
             {/* Mobile Hamburger toggle */}
             <button
               onClick={() => { playDullClick(); setMobileMenuOpen(!mobileMenuOpen); }}
-              className="lg:hidden p-2 rounded bg-[#181614] border border-bronze/20 text-cream hover:text-electric-red transition-all cursor-pointer"
+              className="lg:hidden p-2 rounded bg-[#3A332C]/25 border border-[#F2EDE4]/10 text-[#F2EDE4] hover:text-[#E8762C] transition-all cursor-pointer"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -152,21 +160,17 @@ export default function App() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-x-0 top-[68px] z-30 bg-[#12110F] border-b border-bronze/20 shadow-2xl lg:hidden flex flex-col p-6 space-y-4"
+            className="fixed inset-x-0 top-[74px] z-30 bg-[#1C1A18] border-b border-[#F2EDE4]/10 shadow-2xl lg:hidden flex flex-col p-6 space-y-4"
           >
             {menuItems.map(item => {
-              const isActive = activeView === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => {
-                    playDullClick();
                     setMobileMenuOpen(false);
-                    handleNavigate(item.id as ActiveView);
+                    handleNavClick(item.id);
                   }}
-                  className={`text-left font-anton text-lg tracking-widest uppercase transition-colors py-2 border-b border-white/[0.03] ${
-                    isActive ? "text-electric-red" : "text-cream/70"
-                  }`}
+                  className="text-left font-anton text-lg tracking-wider uppercase transition-colors py-2 border-b border-[#F2EDE4]/5 text-[#F2EDE4]/80 hover:text-[#E8762C]"
                 >
                   {item.label}
                 </button>
@@ -179,9 +183,9 @@ export default function App() {
                 setMobileMenuOpen(false);
                 handleNavigate('book');
               }}
-              className="w-full py-3 bg-electric-red text-cream font-anton text-sm uppercase tracking-wider rounded border border-electric-red text-center"
+              className="w-full py-3 bg-[#E8762C] text-[#F2EDE4] font-anton text-sm uppercase tracking-wider rounded border border-[#E8762C] text-center"
             >
-              Reserve A Chair
+              Contact Us
             </button>
           </motion.div>
         )}

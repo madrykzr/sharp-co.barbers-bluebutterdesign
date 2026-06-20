@@ -10,6 +10,14 @@
   --font-anton: "Anton", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-special: "Special Elite", cursive;
+
+  /* Custom requested brand palette */
+  --color-brand-charcoal: #1C1A18;
+  --color-brand-cream: #F2EDE4;
+  --color-brand-amber: #E8762C;
+  --color-brand-brown: #3A332C;
+  --color-neon-blue: #00F3FF;
+  --color-neon-red: #FF1F44;
 }
 
 /* Custom styles for glowing details and custom animations */
